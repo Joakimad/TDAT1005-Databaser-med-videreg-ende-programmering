@@ -1,0 +1,42 @@
+Innledende:
+
+        Borettslag(navn,adr,antHus,etblaar)
+            Kandidatnøkkel: navn,adr
+            Primærnøkkel: navn
+
+        Medlem(id,fornavn,etternavn,tlf,*borettslag)
+            Kandidatnøkkel: id
+            Primærnøkkel: id
+            Fremmednøkkel: borettslag (Borrettslag: navn)
+
+        bygg(adr,*borettslag,antLeilighter,antEtasjer)
+            Kandidatnøkkel: adr
+            Primærnøkkel: adr
+            Fremmednøkkel: borettslag (Borrettslag: navn)
+
+        Leilighet(romnummer,*bygg,*eier,antRom,m2,etasje)
+            Kandidatnøkkel: romnummer
+            Primærnøkkel: romnummer+bygg
+            Fremmednøkkel: eier (Medlem: id)
+                           bygning (Bygning: adr)
+
+a)        https://www.lucidchart.com/documents/edit/2d4f3345-2b45-4212-9078-5af7239785be/0
+
+b)        Borettslag(navn,adr,antHus,etblaar)
+          Medlem(id,fornavn,etternavn,tlf,borettslag*)
+          Bygning(adr,borettslag*,antLeilighter,antEtasjer)
+          Leilighet(romnummer,bygning*,eier*,antRom,m2,etasje)
+
+c)d)      borettslag.sql
+
+e)        Primærnøkkler må ha en unik verdi og kan ikke være null.
+          Fremmednøkkelen "eier" i leilighet tabellen kan godt være NULL. Man kan ha registrerte leiligheter før noen flytter inn.
+
+f)        ON UPDATE CASCADE:
+          leilighet.eier
+          leilighet.bygg
+          bygg.borettslag
+
+          ON DELETE CASCADE:
+          leilighet.bygg
+          bygg.borettslag
